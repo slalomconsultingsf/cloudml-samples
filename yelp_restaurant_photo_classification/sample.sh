@@ -42,13 +42,13 @@ set -v -e
 # CPU's.  Check progress here: https://console.cloud.google.com/dataflow
 python trainer/preprocess.py \
   --input_dict "$DICT_FILE" \
-  --input_path "gs://yelp_restaurant_photo_classification/eval_set.csv" \
+  --input_path "gs://yelp_restaurant_photo_classification/labels/eval_set.csv" \
   --output_path "${GCS_PATH}/preproc/eval" \
   --cloud
 
 python trainer/preprocess.py \
   --input_dict "$DICT_FILE" \
-  --input_path "gs://yelp_restaurant_photo_classification/train_set.csv" \
+  --input_path "gs://yelp_restaurant_photo_classification/labels/train_set.csv" \
   --output_path "${GCS_PATH}/preproc/train" \
   --cloud
 
