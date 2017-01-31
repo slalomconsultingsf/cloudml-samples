@@ -223,8 +223,7 @@ class Model(object):
             # label.
             'label':
                 tf.FixedLenFeature(
-                    shape=[1], dtype=tf.int64,
-                    default_value=[self.label_count]),
+                    shape=[self.label_count], dtype=tf.int64),
             'embedding':
                 tf.FixedLenFeature(
                     shape=[BOTTLENECK_TENSOR_SIZE], dtype=tf.float32)
