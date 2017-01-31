@@ -222,7 +222,7 @@ class Model(object):
             # label. So the number of labels is label_count+1 for the default
             # label.
             'label':
-                tf.VarLenFeature(tf.string),
+                tf.VarLenFeature(tf.int64),
             'embedding':
                 tf.FixedLenFeature(
                     shape=[BOTTLENECK_TENSOR_SIZE], dtype=tf.float32)
