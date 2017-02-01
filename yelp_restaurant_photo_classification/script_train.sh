@@ -1,0 +1,1 @@
+python -m trainer.task --output_path gs://yelp_restaurant_photo_classification/yelp_restaurant_photo_classification/training --eval_data_paths gs://yelp_restaurant_photo_classification/yelp_restaurant_photo_classification/preproc/eval* --train_data_paths gs://yelp_restaurant_photo_classification/yelp_restaurant_photo_classification/preproc/train*
