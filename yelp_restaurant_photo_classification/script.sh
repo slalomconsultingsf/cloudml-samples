@@ -18,13 +18,15 @@
 # https://cloud.google.com/ml/docs/how-tos/getting-set-up
 
 # Now that we are set up, we can start processing some flowers images.
-declare -r PROJECT=$(gcloud config list project --format "value(core.project)")
-declare -r JOB_ID="flowers_${USER}_$(date +%Y%m%d_%H%M%S)"
-declare -r BUCKET="gs://${PROJECT}-ml"
-declare -r GCS_PATH="${BUCKET}/${USER}/${JOB_ID}"
-declare -r DICT_FILE=gs://cloud-ml-data/img/flower_photos/dict.txt
+cd /home/slalomconsultingsf/git/cloudml-samples/yelp_restaurant_photo_classification
 
-declare -r MODEL_NAME=flowers
+declare -r PROJECT=$(gcloud config list project --format "value(core.project)")
+declare -r JOB_ID="yelp_restaurant_photo_classification_$(date +%Y%m%d_%H%M%S)"
+declare -r BUCKET="gs://yelp_restaurant_photo_classification"
+declare -r GCS_PATH="${BUCKET}/yelp_restaurant_photo_classification"
+declare -r DICT_FILE=gs://yelp_restaurant_photo_classification/labels/dict.txt
+
+declare -r MODEL_NAME=yelp_classifier
 declare -r VERSION_NAME=v1
 
 echo
@@ -39,13 +41,13 @@ set -v -e
 # CPU's.  Check progress here: https://console.cloud.google.com/dataflow
 python trainer/preprocess.py \
   --input_dict "$DICT_FILE" \
-  --input_path "gs://cloud-ml-data/img/flower_photos/eval_set.csv" \
+  --input_path "gs://yelp_restaurant_photo_classification/labels/eval_set.csv" \
   --output_path "${GCS_PATH}/preproc/eval" \
   --cloud
 
 python trainer/preprocess.py \
   --input_dict "$DICT_FILE" \
-  --input_path "gs://cloud-ml-data/img/flower_photos/train_set.csv" \
+  --input_path "gs://yelp_restaurant_photo_classification/labels/train_set.csv" \
   --output_path "${GCS_PATH}/preproc/train" \
   --cloud
 
@@ -53,7 +55,7 @@ python trainer/preprocess.py \
 # commands asynchronously, make sure they have completed before calling this one.
 gcloud beta ml jobs submit training "$JOB_ID" \
   --module-name trainer.task \
-  --package-path trainer \
+  --package-path /home/slalomconsultingsf/git/cloudml-samples/yelp_restaurant_photo_classification/trainer \
   --staging-bucket "$BUCKET" \
   --region us-central1 \
   -- \
